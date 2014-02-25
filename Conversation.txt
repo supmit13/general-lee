@@ -1,0 +1,80 @@
+[01-11-2013 03:34:54] Shevchenko: hi
+[01-11-2013 03:41:02] Shevchenko: hello?
+[01-11-2013 03:41:09] Shevchenko: are you on Odesk?
+[01-11-2013 03:51:32] shevzor: Hi supmit, I'd like to add you as a contact. Shevchenko
+[01-11-2013 03:55:23] *** supmit has shared contact details with Shevchenko. ***
+[01-11-2013 03:56:00] supmit: Hi
+[01-11-2013 03:56:06] Shevchenko: hi
+[01-11-2013 03:56:10] supmit: Yes, I am on odesk
+[01-11-2013 03:56:22] Shevchenko: the software developer?
+[01-11-2013 03:56:34] supmit: right
+[01-11-2013 03:56:39] Shevchenko: ok
+[01-11-2013 03:57:35] Shevchenko: so...
+[01-11-2013 03:57:59] Shevchenko: are you able to do python?
+[01-11-2013 03:58:06] Shevchenko: or perl?
+[01-11-2013 03:58:09] supmit: yeah, sure
+[01-11-2013 03:58:12] Shevchenko: ok
+[01-11-2013 03:58:25] supmit: have been using that for 4 years
+[01-11-2013 03:58:29] Shevchenko: alright.. have you ever heard of GENERAL LEE INTELIGENT TRAFFIC?
+[01-11-2013 03:59:07] supmit: nope
+[01-11-2013 03:59:18] Shevchenko: ok, I can give you the program>
+[01-11-2013 03:59:29] Shevchenko:  and you can take a look what can you fix in it>
+[01-11-2013 03:59:36] supmit: ok
+[01-11-2013 04:03:14] supmit: ok, file received... let me take a look... will get back to you shortly
+[01-11-2013 04:14:07] Shevchenko: k, let me know when you have looked at it
+[01-11-2013 04:25:15] Shevchenko: what do u think?
+[02-11-2013 10:44:47] Shevchenko: ??
+[09-11-2013 23:46:04] Shevchenko: hello?
+[10-11-2013 01:58:14] supmit: hi
+[10-11-2013 01:58:21] supmit: are you there?
+[10-11-2013 01:58:51] Shevchenko: yes
+[10-11-2013 02:01:37] supmit: I took a look at the software you shared... So it is a software that sends traffic to a specified website, using fake referrals and through proxies so as to hide the actual host IP so that it doesn't get banned. Also, using proxies makes the traffic look realistic, since it would be coming from different hosts (as if the proxy host is the sender of the requests).
+[10-11-2013 02:01:47] supmit: So what do you want me to do?
+[10-11-2013 02:02:16] Shevchenko: fix the refferal part
+[10-11-2013 02:02:24] Shevchenko: I dont think it is working
+[10-11-2013 02:02:32] Shevchenko: or maybe I dont know how to use it
+[10-11-2013 02:04:59] supmit: hmmmm.... let me check it once
+[10-11-2013 02:06:36] supmit: well, I will need the source code ... can you please give me that? What you had given me is the executable, but that won't help me to analyze it
+[10-11-2013 02:06:57] Shevchenko: hmm. I see.
+[10-11-2013 02:07:02] Shevchenko: Unfortunately I dont have it
+[10-11-2013 02:07:40] supmit: oh... ok... let me see if it can be reverse engineered
+[10-11-2013 02:07:51] Shevchenko: ok
+[10-11-2013 03:38:13] supmit: Well, I just checked out the app... It won't be possible to make a change in it so that the referal works as expected. For that, you just have to have the source code. I think the Referal functionality never worked for this app. The best I can do for you is to create a similar app with the referal system working. But that will take time and money. It would take me approximately a month to create that (I also have a few other projects in hand which I have to take care of alongwith this). Financially, it would cost you about USD 600 to 700 (rough guess based on the amount of functionaliry to be built into it). Do please let me know if you would be interested in this option. Thanks.
+[10-11-2013 03:39:24] Shevchenko: I think iam interested
+[10-11-2013 03:39:58] supmit: you are? that is fine... I can do it
+[10-11-2013 03:40:14] supmit: when would you want me to start? rightaway?
+[10-11-2013 03:41:21] Shevchenko: yes
+[10-11-2013 03:43:08] supmit: ok, I will start on it today... Let me draw up all your requirements in one place...  you can then go over it and tell me if you want anything that I missed... and then I would start working on those requirements
+[10-11-2013 03:43:18] Shevchenko: ok
+[10-11-2013 03:43:49] supmit: will be back with the list of requirements in about 15 minutes
+[10-11-2013 04:10:24] Shevchenko: send again
+[10-11-2013 04:11:04] supmit: did you receive it?
+[10-11-2013 04:11:46] Shevchenko: yeah
+[10-11-2013 04:13:21] supmit: also, do you have any preference for the programming language to be used in this project? If not, I would use python
+[10-11-2013 04:13:39] Shevchenko: ok, thats fine
+[10-11-2013 04:14:21] supmit: great. Do you want to add something to the list of requirements?
+[10-11-2013 04:15:24] Shevchenko: 1 min
+[10-11-2013 04:17:14] supmit: ok
+[10-11-2013 04:26:32] supmit: Hi, I also changed the terms on odesk appropriately. Please take a look and let me know if you would want to request any change on your part.
+[10-11-2013 04:26:42] Shevchenko: ok 1 min
+[10-11-2013 04:48:49] Shevchenko: we might have to add something
+[10-11-2013 04:49:17] supmit: ok... what is it?
+[10-11-2013 04:49:29] Shevchenko: well.. trying to think
+[10-11-2013 04:49:33] supmit: ok
+[10-11-2013 04:49:43] Shevchenko: somehow to make it look that it is real..
+[10-11-2013 04:51:12] supmit: what is it?
+[10-11-2013 04:51:22] Shevchenko: idk
+[10-11-2013 04:51:30] supmit: ?
+[10-11-2013 04:51:48] Shevchenko: [10 November 2013 04:49] Shevchenko: 
+
+<<< somehow to make it look that it is real..
+[10-11-2013 04:54:46] supmit: are you talking about the application and the requests that it would make to the targetted website?
+[10-11-2013 04:55:45] supmit: I don't think I understand your point clearly
+[10-11-2013 04:56:01] Shevchenko: well.. its hard to explain..
+[10-11-2013 04:56:14] Shevchenko: is it possible to hide that its coming from a proxy?
+[10-11-2013 04:58:11] supmit: that would be difficult.. normally you can spoof the HOST IP header from which your requests are sent. But since the website has to send the responses to the requester, you cannot do much spoofing with it
+[10-11-2013 04:59:15] supmit: So I think that the proxy's IP cannot be spoofed.... we will have to make do with it
+[10-11-2013 05:01:40] supmit: anyway, take time to think about it and I will do the same. I think I must get some sleep now as it is 4:30 am here..... I had been working through the night
+[10-11-2013 05:02:38] Shevchenko: ok
+[10-11-2013 05:02:47] supmit: I will start working on it as soon as I am booted today after I wake up
+[10-11-2013 05:03:06] supmit: bye for now!

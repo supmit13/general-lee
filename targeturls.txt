@@ -1,0 +1,4 @@
+http://192.168.154.171/storecrawler/product
+http://www.costco.com/
+http://www.safeway.com/
+http://www.walmart.com/

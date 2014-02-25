@@ -1,0 +1,65 @@
+The intention is to create an application with the following functionalities:
+
+1. The application will be able to take an URL from the user as input. It will try to generate some traffic to it that looks as if it is a real bunch of humans surfing the website.
+
+2. In order to decrease the human intervention to a minimum, the application would be able to read this URL from a text file. Each URL will be on a line on its own.
+
+3. In order for the application to generate 'clicks' on the website from different IP addresses, the application will make use of proxies. The proxies (alongwith the credentials for accessing them, if any) would be read from another text file.
+
+4 To make the clicks made by the application realistic, the requests to the website will have a referer header. That way it would appear that a real human user is accessing the site, after landing on the site from a referal webpage. The referer header values would be read by the application from yet another file.
+
+5. In order to make the traffic appear as a human being, the application will insert random time delay in its operations. Thus, it would appear that the user is browsing the website, stopping to read for a while before proceeding to another page.
+
+6. The script will be able to run as threads to improve efficiency. The number of threads that the application would be able to spawn may be set by the user in a configuration screen that stores the config data in another text file.
+
+7. The user would be able to start and stop the application as he/she wishes. Stopping the script will result in closure of the connection to the website. This will make it appear as if the ussr has closed the browser window.
+
+8 The user should be able to specify the number of clicks to be made on each page of the website. The user should also be able to set the depth upto which the application will navigate in the website.
+
+9. The application will have a GUI to allow the user to add the parameters conveniently and simply. The GUI should be able to show status messages regarding what the application is doing at that moment.
+
+I think that is all that you would like me to develop. In case I have missed something, please free to add them in the list.
+In order to connect through, I open my ssh client (a software called 'putty')....
+
+ashokj953@gmail.com
+
+The Window Widget Requirements:
+-------------------------------
+
+The window system should provide fields to input the following 3 files:
+a) A file containing the list of URLs to target.
+b) A file containing the list of URLs to be used as 'Referer' header in HTTP Requests.
+c) A file containing the list of URLs to be used as proxies through which the HTTP requests are to be sent.
+The window system should allow the user to upload the 3 files using the above 3 fields.
+
+The window system should also allow the user to enter the number of virtual browsers to run. Each virtual browser will be run on a thread/child process of its own. A default value of 10 should be set for this field.
+
+Once these inputs are entered, the window system should display a 'Run' button to allow the user to run the program. This program may create threads or child processes, so the window system should be capable of handling such actions appropriately.
+
+The window system should provide back the following values to the backend program.
+a) A variable specifying the file containing the target URLs. This should be the path to the file.
+b) A variable specifying the file containing the referer URLs. This should be the path to the file.
+c) A variable specifying the file containing the proxy URLs and their credentials. This should be the path to the file.
+d) A variable specifying the number of user-agents to use. This should be a positive integer.
+
+
+
+Implementation Logic:
+---------------------
+The implementation of generallee.pl is as follows:
+
+Step #1. First, we read in all the inputs. This includes reading in all the content from the files containing the listing of target URLs, listing for referer URLs and listing for proxies. We also read in the number of user-agents to be created. The number of user-agents is used to define the number of threads to be created.
+
+Step #2. Next, for each target URL, we create N user-agents, where N is the value supplied by the user for the number of user-agents to be created. Each user-agent is created using a different proxy, which is randomly selected from the list of proxies read in from step #1. This ensures that the requests sent to the target URL appear to be from browsers running on different hosts. A reference to the created user-agent is stored in a list called '@useragents'.
+
+Step #3. We create a HTTP request to get the target URL. The request is created by randomly selecting a 'Referer' header from the list of referers read in from Step #1. We use the first user-agent from the list of user-agents in the list named '@useragents' (see Step #2) to send this request. This request is sent to the target URL and its response is captured and parsed to extract all URLs in it. We add the extracted URLs from the response in a list named '@target_links'. We expect the URLs extracted from the response to be pointing to resources (web pages) in the domain of the target URL.
+
+Step #4. We iterate over the list of user-agents in the list named '@useragents' and shoot a request at each URL from the list of URLs named '@target_links'. Each request is constructed with a randomly chosen referer URL from the list of referers supplied by the user. This step is carried out by a thread of the main program. The thread ensures that after each request that is sent, the thread sleeps for a random number of seconds (between 0 and 60). This makes the activity look like a 'human' user browsing the website, looking at a page and halts for a while before going over to another page.
+
+
+
+fetching from: http://prdownloads.sourceforge.net/wxwindows/wxWidgets-2.8.12.tar.gz
+
+
+wud\wx\msw\rcdefs.h"
+'cl' is not recognized as an internal or external command, operable program or batch file.

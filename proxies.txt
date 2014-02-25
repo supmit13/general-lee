@@ -1,0 +1,25 @@
+localhost:8080
+
+
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use LWP::UserAgent;
+use HTTP::Request::Common;
+
+my $proxy = 'http://72.43.50.184:80/';
+my $contentget = 'http://search.cpan.org/~gaas/libwww-perl-5.837/lib/L
++WP/UserAgent.pm'; 
+
+my $ua = LWP::UserAgent->new;
+$ua->timeout(30); 
+$ua->proxy(['http'], $proxy);
+
+my $res = $ua->get($contentget);
+if ($res->is_success) {
+    print $res->decoded_content;
+} 
+else {
+    die $res->status_line; 
+}
