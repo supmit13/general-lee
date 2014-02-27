@@ -59,7 +59,8 @@ sub new{
                           [800,200], 
                           );
 
-    $panel->SetBackgroundColour(wxBLUE); 
+    $panel->SetBackgroundColour(Wx::Colour->new(0,150,250));
+	$panel2->SetBackgroundColour(Wx::Colour->new(180,180,180)); 
 
 
     $self->{txt11} = Wx::StaticText->new( $panel,             
@@ -126,6 +127,10 @@ sub new{
                                     [220, 15]            
                                    );
 
+	$self->{consoletxt} = Wx::StaticText->new($panel2, 1, "Status: Not Running", [15, 25]);
+	$self->{consoletxt}->SetForegroundColour( Wx::Colour->new(255, 0, 0) );
+	$self->{consoletxt}->SetFont( Wx::Font->new( 10, wxDEFAULT, wxNORMAL, wxBOLD, 0, "" ) );
+
     my $spid1=5;
     $self->{spin1} = new Wx::SpinCtrl(
 		  $panel,
@@ -169,6 +174,47 @@ sub new{
 		  600,# max
 		  5 # initial
 	 );
+
+	my $BTNID6 = 6;
+	$self->{btn6} = Wx::Button->new( $panel,             
+                                $BTNID6,                 
+                               "Refresh Status", 
+                                [220,145]                                                      
+                              );
+
+
+	 $self->{txt7} = Wx::StaticText->new( $panel,  
+                                    1,                  
+                                    "Target Website: ",
+                                    [420, 15]            
+                                   );
+	 $self->{txt7}->SetForegroundColour( Wx::Colour->new(0, 0, 0) );
+	 $self->{txt7}->SetFont( Wx::Font->new( 10, wxDEFAULT, wxNORMAL, wxBOLD, 0, "" ) );
+
+	 $self->{txt8} = Wx::StaticText->new( $panel,  
+                                    1,                  
+                                    "Links Count on Target Site: 0",
+                                    [420, 35]            
+                                   );
+	 $self->{txt8}->SetForegroundColour( Wx::Colour->new(0, 0, 0) );
+	 $self->{txt8}->SetFont( Wx::Font->new( 10, wxDEFAULT, wxNORMAL, wxBOLD, 0, "" ) );
+
+	 $self->{txt10} = Wx::StaticText->new( $panel,  
+                                    1,                  
+                                    "Successful Hits on Target Site: 0",                                            
+                                    [420, 55]            
+                                   );
+	 $self->{txt10}->SetForegroundColour( Wx::Colour->new(0, 0, 0) );
+	 $self->{txt10}->SetFont( Wx::Font->new( 10, wxDEFAULT, wxNORMAL, wxBOLD, 0, "" ) );
+
+	 $self->{txt9} = Wx::StaticText->new( $panel,  
+                                    1,                  
+                                    "Total Links Found till Now: 0",                                            
+                                    [420, 75]            
+                                   );
+	 $self->{txt9}->SetForegroundColour( Wx::Colour->new(0, 0, 0) );
+	 $self->{txt9}->SetFont( Wx::Font->new( 10, wxDEFAULT, wxNORMAL, wxBOLD, 0, "" ) );
+
 
     my $file1 = IO::File->new( "gui\\start.jpg", "r" ) or return undef;
     my $file2 = IO::File->new( "gui\\stop.jpg", "r" ) or return undef;
@@ -225,6 +271,10 @@ sub new{
     EVT_BUTTON( $self,          
              $BTNID5,         
              \&ButtonClicked5
+              );
+	EVT_BUTTON( $self,          
+             $BTNID6,         
+             \&ButtonClicked6
               );
 
     return $self;
@@ -299,6 +349,10 @@ sub ButtonClicked4{
 			$self->{ spin2}->Enable(0);
 			$self->{ btn8}->Enable(0);
 			$self->{btn9}->Enable(1); #Now, activate the stop button.
+
+			$self->{consoletxt}->SetLabel("Status: Running");
+			$self->{consoletxt}->SetForegroundColour( Wx::Colour->new(0, 0, 255) );
+			$self->{consoletxt}->SetFont( Wx::Font->new( 10, wxDEFAULT, wxNORMAL, wxBOLD, 0, "" ) );
 		}
 
 		###### Run the app ######
@@ -380,6 +434,16 @@ sub ButtonClicked5{
 	return;
 }
 
+# Code to refresh the values of Hits and URL being processed.
+sub ButtonClicked6{
+	 my( $self, $event ) = @_ ;
+	 $self->{txt7}->SetLabel("Target Website: ".$Main::siteInProcess);
+	 $self->{txt8}->SetLabel("Links Count on Target Site: ".$Main::siteVisits{$Main::siteInProcess});
+	 $self->{txt10}->SetLabel("Successful Hits on Target Site: ".$Main::successfulHits{$Main::siteInProcess});
+	 $self->{txt9}->SetLabel("Total Links Found till Now: ".$Main::totalVisits);
+	 return;
+}
+
 
 sub spinchd1{
 	my( $self, $event ) = @_; 
@@ -446,6 +510,12 @@ our $isRunning:shared = $FALSE;
 our %threadstatus:shared = ();
 our @threadsList = ();
 
+our %siteVisits:shared = ();
+our $totalVisits:shared = 0;
+our $siteInProcess:shared = "";
+
+our %successfulHits:shared = ();
+
 
 #### Signal Handler for 'INT' signal. ####
 sub int_handler{
@@ -488,10 +558,16 @@ else{ # Child pseudo-subprocess
 		foreach my $cntr (0..scalar @all_urls - 1){
 			if (defined($runFlags[$cntr]) && $runFlags[$cntr] == 1){
 				my $oneUrl = $all_urls[$cntr];
+				chomp($oneUrl);
+				$siteInProcess = $oneUrl;
+				$siteVisits{$oneUrl} = 0;
 				writeLog("Calling 'generateHits' on '".$oneUrl."'...", $log);
 				print "Calling 'generateHits' on '".$oneUrl."'...";
 				@useragents = ();
 				generateHits($oneUrl, $userAgentCount, $maxDelay);
+				writeLog("Hit count for '".$oneUrl."': ".$siteVisits{$oneUrl}."\n", $log);
+				$totalVisits = $totalVisits + $siteVisits{$oneUrl};
+				writeLog("Total hits: ".$totalVisits."\n", $log);
 				$runFlags[$cntr] = 2; # So that next time 'generateHits' doesn't get executed again.
 				$doneFlag = 1;
 			}
@@ -512,6 +588,8 @@ sub generateHits{
 	my $maxDelayLocal = shift || 60;
 	chomp $url;
 	my $maxUserAgentIndex = ($ua_count - 1);
+	$siteVisits{$url} = 0;
+	$successfulHits{$url} = 0;
 	foreach my $uactr (0..$maxUserAgentIndex){
 		writeLog("Creating user-agent #".$uactr."....", $log) if($log);
 		my $ua = LWP::UserAgent->new(-agent => "Mozilla\/5.0 \(Windows NT 6.1; WOW64\) AppleWebKit\/537.36 \(KHTML, like Gecko\) Chrome\/27.0.1453.110 Safari\/537.36");
@@ -564,7 +642,8 @@ sub generateHits{
 			print "HTTP Error Message:  ".$response->message."\n\n";
 		}
 	}
-
+    $siteVisits{$url} += 1;
+	$totalVisits += $siteVisits{$url};
 	my $html = $response->decoded_content;
 	my $parser = HTML::TokeParser->new(\$html);
 	my $uri = URI->new($url);
@@ -598,7 +677,9 @@ sub generateHits{
 			print "Calling 'navigateLinks' on a new thread ....\n\n";
 			writeLog("Calling 'navigateLinks' on a new thread ....\n\n", $log) if($log);
 			# No use passing log file handle to navigateLinks, as filehandles are not shared between threads.	
-			my $thr = threads->create('navigateLinks', ($uactr, $maxDelayLocal, @target_links));
+			my $thr = threads->create('navigateLinks', ($uactr, $maxDelayLocal, $url, @target_links));
+			$siteVisits{$url} += scalar(@target_links);
+			$totalVisits += $siteVisits{$url};
 			push(@threadsList, $thr);
 			$thr->detach() if(!$thr->is_detached());
 		}
@@ -702,6 +783,7 @@ sub randomArrange{
 sub navigateLinks{
 	my $uactr = shift;
 	my $maxDelayLocal = shift || 60;
+	my $baseurl = shift || "";
 	my @target_links = ();
 	foreach my $ctr (0..scalar(@_) - 1){
 		push(@target_links, $_[$ctr]);
@@ -726,9 +808,9 @@ sub navigateLinks{
 		print "Thread ".$tid." requesting ".$targetlink." with referer '".$referer."' ... \n";
 		my $resp = $ua->request($request);
 		my $delay = 1;
-		#print "Response Status: ".$resp->status_line."\n";
 		if($resp->is_success || $resp->is_redirect){
 			$delay = delay($maxDelayLocal);
+			$successfulHits{$baseurl} += 1;
 		}
 		print "Thread ".$tid." sleeping for ".int($delay)." seconds before continuing\n\n\n";
 		sleep(int($delay));
