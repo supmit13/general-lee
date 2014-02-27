@@ -28,6 +28,7 @@ use HTML::TokeParser;
 # Handle files and paths
 use File::Path qw(make_path);
 use IO::File;
+use File::Copy;
 
 # GUI
 use Wx;
@@ -565,9 +566,10 @@ else{ # Child pseudo-subprocess
 				print "Calling 'generateHits' on '".$oneUrl."'...";
 				@useragents = ();
 				generateHits($oneUrl, $userAgentCount, $maxDelay);
-				writeLog("Hit count for '".$oneUrl."': ".$siteVisits{$oneUrl}."\n", $log);
+				writeLog("Links Count on Target Site '".$oneUrl."': ".$siteVisits{$oneUrl}."\n", $log);
+				writeLog("Successful Hits on Target Site '".$oneUrl."': ".$successfulHits{$oneUrl}."\n", $log);
 				$totalVisits = $totalVisits + $siteVisits{$oneUrl};
-				writeLog("Total hits: ".$totalVisits."\n", $log);
+				writeLog("Total Links Found till Now: ".$totalVisits."\n", $log);
 				$runFlags[$cntr] = 2; # So that next time 'generateHits' doesn't get executed again.
 				$doneFlag = 1;
 			}
@@ -577,8 +579,14 @@ else{ # Child pseudo-subprocess
 }
 
 if($pid){ # Parent pseudo-process
+	foreach my $url (keys %siteVisits){
+		writeLog("Number of links found in '".$url."' : ".$siteVisits{$url}."\n", $log);
+		writeLog("Number of links successfully hit: ".$successfulHits{$url}."\n", $log);
+	}
+	writeLog("Aggregated Count of Links from all the Sites: ".$totalVisits."\n", $log);
 	# Close log file.
 	closeLog($log);
+	copy($logfile, ".\\Logs\\generallee.log");
 }
 
 
