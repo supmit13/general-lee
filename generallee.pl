@@ -186,7 +186,7 @@ sub new{
 
 	 $self->{txt7} = Wx::StaticText->new( $panel,  
                                     1,                  
-                                    "Target Website: ",
+                                    "Processing Website ",
                                     [420, 15]            
                                    );
 	 $self->{txt7}->SetForegroundColour( Wx::Colour->new(0, 0, 0) );
@@ -438,7 +438,7 @@ sub ButtonClicked5{
 # Code to refresh the values of Hits and URL being processed.
 sub ButtonClicked6{
 	 my( $self, $event ) = @_ ;
-	 $self->{txt7}->SetLabel("Target Website: ".$Main::siteInProcess);
+	 $self->{txt7}->SetLabel("Processing Website '".$Main::siteInProcess."'...");
 	 $self->{txt8}->SetLabel("Links Count on Target Site: ".$Main::siteVisits{$Main::siteInProcess});
 	 $self->{txt10}->SetLabel("Successful Hits on Target Site: ".$Main::successfulHits{$Main::siteInProcess});
 	 $self->{txt9}->SetLabel("Total Links Found till Now: ".$Main::totalVisits);
@@ -522,10 +522,20 @@ our %successfulHits:shared = ();
 sub int_handler{
 	my ($signame) = @_;
 	print "SIGNAME= ".$signame."\n";
+	writeLog("Received signal ".$signame."\n", $log);
 	# INT signals raised while the handler is being executed. They should be ignored.
 	$SIG{'INT'} = 'IGNORE';
+	# Dump the statistics data...
+	writeLog("\nFinal Statistics\n".("==" x 40)."\n", $log);
+	foreach my $url (keys %siteVisits){
+		writeLog("Number of links found in '".$url."' : ".$siteVisits{$url}."\n", $log);
+		writeLog("Number of links successfully hit: ".$successfulHits{$url}."\n", $log);
+	}
+	writeLog("Aggregated Count of Links from all the Sites: ".$totalVisits."\n", $log);
+	writeLog(("==" x 40)."\n", $log);
 	writeLog("Received signal ".$signame.". Closing logs.\n\n", $log);
 	closeLog($log); # Closing logs
+	copy($logfile, ".\\Logs\\generallee.log");
 	print "Caught '".$signame."' by child ".$$.". Exiting...\n";
 	$isRunning = $FALSE; # Set 'isRunning' flag to 0.
 	print "Stopping activity...\n\n";
@@ -579,11 +589,13 @@ else{ # Child pseudo-subprocess
 }
 
 if($pid){ # Parent pseudo-process
+	writeLog("\nFinal Statistics\n".("==" x 40)."\n", $log);
 	foreach my $url (keys %siteVisits){
 		writeLog("Number of links found in '".$url."' : ".$siteVisits{$url}."\n", $log);
 		writeLog("Number of links successfully hit: ".$successfulHits{$url}."\n", $log);
 	}
 	writeLog("Aggregated Count of Links from all the Sites: ".$totalVisits."\n", $log);
+	writeLog(("==" x 40)."\n", $log);
 	# Close log file.
 	closeLog($log);
 	copy($logfile, ".\\Logs\\generallee.log");
