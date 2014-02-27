@@ -1,0 +1,13 @@
+wxWidgets-2.5.3 or above
+nmake.exe
+Perl-5.10.x or ActivePerl 8xx or above.
+MSVC 6 or MSVC 7 or MinGW GCC 3.4 or MinGW GCC 4.x
+Perl module "Alien-wxWidgets-0.64" (Perl Module to install WxPerl)
+Perl module "threads"
+Perl module "threads::shared"
+Perl module "Win32::OLE" (on windows systems only)
+Perl module "LWP::UserAgent"
+Perl module "HTML::TokeParser"
+Perl module "HTTP::Request"
+Perl module "HTTP::Response"
+Perl module "HTTP::Headers"
