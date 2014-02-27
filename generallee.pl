@@ -210,7 +210,7 @@ sub new{
 
 	 $self->{txt9} = Wx::StaticText->new( $panel,  
                                     1,                  
-                                    "Total Links Found till Now: 0",                                            
+                                    "Total Links Found: 0",                                            
                                     [420, 75]            
                                    );
 	 $self->{txt9}->SetForegroundColour( Wx::Colour->new(0, 0, 0) );
@@ -422,6 +422,7 @@ sub ButtonClicked4{
 	}
 }
 
+
 # Code to execute when user clicks on 'Stop' button.
 sub ButtonClicked5{ 
     my( $self, $event ) = @_ ;
@@ -435,13 +436,14 @@ sub ButtonClicked5{
 	return;
 }
 
+
 # Code to refresh the values of Hits and URL being processed.
 sub ButtonClicked6{
 	 my( $self, $event ) = @_ ;
 	 $self->{txt7}->SetLabel("Processing Website '".$Main::siteInProcess."'...");
 	 $self->{txt8}->SetLabel("Links Count on Target Site: ".$Main::siteVisits{$Main::siteInProcess});
 	 $self->{txt10}->SetLabel("Successful Hits on Target Site: ".$Main::successfulHits{$Main::siteInProcess});
-	 $self->{txt9}->SetLabel("Total Links Found till Now: ".$Main::totalVisits);
+	 $self->{txt9}->SetLabel("Total Links Found: ".$Main::totalVisits);
 	 return;
 }
 
@@ -579,7 +581,7 @@ else{ # Child pseudo-subprocess
 				writeLog("Links Count on Target Site '".$oneUrl."': ".$siteVisits{$oneUrl}."\n", $log);
 				writeLog("Successful Hits on Target Site '".$oneUrl."': ".$successfulHits{$oneUrl}."\n", $log);
 				$totalVisits = $totalVisits + $siteVisits{$oneUrl};
-				writeLog("Total Links Found till Now: ".$totalVisits."\n", $log);
+				writeLog("Total Links Found: ".$totalVisits."\n", $log);
 				$runFlags[$cntr] = 2; # So that next time 'generateHits' doesn't get executed again.
 				$doneFlag = 1;
 			}
