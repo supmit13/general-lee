@@ -176,13 +176,6 @@ sub new{
 		  5 # initial
 	 );
 
-	 #my $BTNID6 = 6;
-     #$self->{btn6} = Wx::Button->new( $panel,             
-     #                           $BTNID6,                 
-     #                          "Refresh Stats", 
-     #                           [420,140]                                                      
-     #                         );
-
 	 $self->{txt7} = Wx::StaticText->new( $panel,  
                                     1,                  
                                     "Processing Website ",
