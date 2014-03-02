@@ -176,13 +176,12 @@ sub new{
 		  5 # initial
 	 );
 
-	my $BTNID6 = 6;
-	$self->{btn6} = Wx::Button->new( $panel,             
-                                $BTNID6,                 
-                               "Refresh Status", 
-                                [220,145]                                                      
-                              );
-
+	 #my $BTNID6 = 6;
+     #$self->{btn6} = Wx::Button->new( $panel,             
+     #                           $BTNID6,                 
+     #                          "Refresh Stats", 
+     #                           [420,140]                                                      
+     #                         );
 
 	 $self->{txt7} = Wx::StaticText->new( $panel,  
                                     1,                  
@@ -216,27 +215,41 @@ sub new{
 	 $self->{txt9}->SetForegroundColour( Wx::Colour->new(0, 0, 0) );
 	 $self->{txt9}->SetFont( Wx::Font->new( 10, wxDEFAULT, wxNORMAL, wxBOLD, 0, "" ) );
 
-
     my $file1 = IO::File->new( "gui\\start.jpg", "r" ) or return undef;
     my $file2 = IO::File->new( "gui\\stop.jpg", "r" ) or return undef;
+	my $file3 = IO::File->new( "gui\\refresh.jpg", "r" ) or return undef;
     binmode $file1;
     binmode $file2;
+	binmode $file3;
     my $handler1 = Wx::JPEGHandler->new();
     my $handler2 = Wx::JPEGHandler->new();
+	my $handler3 = Wx::JPEGHandler->new();
     my $image1 = Wx::Image->new();
     my $image2 = Wx::Image->new();
+	my $image3 = Wx::Image->new();
     my $bmp1;
-    my $bmp2; 
+    my $bmp2;
+	my $bmp3;
     $handler1->LoadFile( $image1, $file1 );
     $handler2->LoadFile( $image2, $file2 );
+	$handler3->LoadFile( $image3, $file3 );
     $bmp1=Wx::Bitmap->new( $image1 );
     $bmp2=Wx::Bitmap->new( $image2 );
+	$bmp3=Wx::Bitmap->new( $image3 );
     my $BTNID4 =4;
     my $BTNID5 =9;
+	my $BTNID6 =16;
+
+	$self->{btn6} = Wx::BitmapButton->new( $panel,             
+                                $BTNID6,                 
+                               $bmp3, 
+                                [420,140]                                                      
+                              );
+	
     $self->{btn8} = Wx::BitmapButton->new( $panel,             
                                 $BTNID4,                 
                                $bmp1, 
-                                [420,140]                                                    
+                                [520,140]                                                    
                               );
 
     $self->{btn9} = Wx::BitmapButton->new( $panel,             
@@ -244,8 +257,10 @@ sub new{
                                $bmp2, 
                                 [620,140]                                                    
                               );
-	# As long as the user doesn't click on the 'start' button to start the app, the 'stop' button will remain deactivated.
+
+	# As long as the user doesn't click on the 'start' button to start the app, the 'stop' and 'refresh' buttons will remain deactivated.
 	$self->{btn9}->Enable(0); 
+	$self->{btn6}->Enable(0); 
 
     EVT_SPINCTRL($self,$spid1,\&spinchd1);
 
@@ -255,12 +270,10 @@ sub new{
              $BTNID1,         
              \&ButtonClicked1 
               );
-
     EVT_BUTTON( $self,          
              $BTNID2,         
              \&ButtonClicked2 
               );
-
     EVT_BUTTON( $self,          
              $BTNID3,         
              \&ButtonClicked3 
@@ -349,7 +362,8 @@ sub ButtonClicked4{
 			$self->{ spin1}->Enable(0);
 			$self->{ spin2}->Enable(0);
 			$self->{ btn8}->Enable(0);
-			$self->{btn9}->Enable(1); #Now, activate the stop button.
+			$self->{btn9}->Enable(1); #Now, activate the 'stop' button.
+			$self->{btn6}->Enable(1); #Activate the 'refresh' button too.
 
 			$self->{consoletxt}->SetLabel("Status: Running");
 			$self->{consoletxt}->SetForegroundColour( Wx::Colour->new(0, 0, 255) );
@@ -433,6 +447,7 @@ sub ButtonClicked5{
 	
 	$self->{btn9}->Enable(0); # Deactivate the 'stop' button.
 	$self->{ btn8}->Enable(1); # Activate the start button.
+	$self->{ btn6}->Enable(0); # Deactivate the 'refresh' button.
 	return;
 }
 
